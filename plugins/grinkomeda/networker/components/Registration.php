@@ -115,7 +115,7 @@ class Registration extends ComponentBase
             $models_created['account']->user_id = $models_created['profile']->user_id = $models_created['entry']->user_id = $models_created['ticket']->link_id = $user->id;
                 $this->saveModels( $models_created );
 
-            if($this->manageHeiarchyLevels( $account_code, $data["package"] ))
+            if($this->startNetworking( $account_code, $data["package"] ))
             {
 
             }
@@ -131,10 +131,10 @@ class Registration extends ComponentBase
         }
     }
 
-    private function manageHeiarchyLevels( $account_code, $package_id )
+    private function startNetworking( $account_code, $package_id )
     {
         $active_counter = 1;
-        // $active_account_code = $account_code;
+        $package_amount = Package::find($package_id)->first()['amount'];
         $finance_list = array(
              500,
              750,
@@ -142,20 +142,6 @@ class Registration extends ComponentBase
              1686,
              2529
             );
-        $active_account = Account::where('account_code',$account_code)->first();
-        $package_amount = Package::where('id',$package_id)->first()['amount'];
-
-        $children_accounts = Account::where('leader_code',$registered_account['leader_code'])->get();
-        
-        while ( ) {
-            if(count($children_accounts) == 3) {
-                Finance::convertPendingToUpgrade($children_accounts);
-            } elseif (count($children_accounts) < 3) {
-                Finance::createPendingUpgrade($account_code, $package_amount, 1);
-            } else {
-                
-            }
-        }
     }
 
     public function validateModels( $models_created ) {
