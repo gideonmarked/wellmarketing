@@ -34,6 +34,23 @@ class Account extends Model
         }
     }
 
+    public static function upgradeToNextLevel( $account, $level )
+    {
+        if( $account->level_id == $level )
+        {
+            $account->upgradeToNext();
+        }
+    }
+
+    public function upgradeToNext()
+    {
+        if( $this->level_id < 5 )
+        {
+            $this->level_id = $this->level_id + 1;
+            $this->save();
+        }
+    }
+
     public static function getAncestor( $account_code, $levels, $current_level = 1 )
     {
         $parent = Account::where('account_code',$account_code)->first();

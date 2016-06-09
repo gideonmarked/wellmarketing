@@ -115,10 +115,11 @@ class Registration extends ComponentBase
             $models_created['account']->user_id = $models_created['profile']->user_id = $models_created['entry']->user_id = $models_created['ticket']->link_id = $user->id;
                 $this->saveModels( $models_created );
 
-            if($this->startNetworking( $account_code, $data["package"] ))
-            {
 
-            }
+            $package_amount = Package::find($data["package"])->first()['amount'];
+
+            $this->startNetworking( $account_code, $package_amount, 1 );
+
 
             /*$finance = Finance::createForceMatrix( $account_code, $data["package"],
                             ($is_spill ? $data["leader_code"] : null ));*/
@@ -131,10 +132,14 @@ class Registration extends ComponentBase
         }
     }
 
-    private function startNetworking( $account_code, $package_id )
+    private function startNetworking( $account_code, $amount, $level )
     {
         $active_counter = 1;
+        
         $package_amount = Package::find($package_id)->first()['amount'];
+        $active_account = Account::where( 'account_code',$account_code )->first();
+        $leader_code = $active_account['leader_code'];
+        $children_accounts = Account::where('leader_code', $leader_code)->get();
         $finance_list = array(
              500,
              750,
@@ -142,6 +147,24 @@ class Registration extends ComponentBase
              1686,
              2529
             );
+
+        Finance::createPendingUpgrade( $account_code, $amount, $level);
+
+        if(count($children_accounts) == 3) {
+            Finance::convertPendingToUpgrade($children_accounts,$level,$amount);
+            $leader_account = Account::where( 'account_code', $active_account['leader_code'] )->first();
+            Account::upgradeToNextLevel( $leader_account, $level );
+        }
+
+        if(count($children_accounts) > 3) {
+            Finance::addExtraProfit($children_accounts,$level,$amount);
+        }
+
+
+
+        if($account_code != $active_account['leader_code']) {
+            $this->startNetworking( $active_account['leader_code'], $finance_list[$level], $level+1 );
+        }
     }
 
     public function validateModels( $models_created ) {

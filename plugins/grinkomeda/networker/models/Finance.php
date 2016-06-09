@@ -48,26 +48,16 @@ class Finance extends Model
         $finance->save();
     }
 
-    public static function convertPendingToUpgrade($acounts) 
+    public static function convertPendingToUpgrade($accounts,$level,$amount) 
     {
-        foreach ($acounts as $key => $account) {
-            $finance = Finance::where('from_user',$account->account_code)
+        foreach ($accounts as $key => $account) {
+            $finance_upgrade = Finance::where('from_user',$account->account_code)
                                 ->where('to_user',$account->account_code)
                                 ->where('type','pending')
-                                ->where('description','upgrade level 1')
+                                ->where('description','upgrade level ' . $level)
                                 ->first();
-            $finance->type = 'profit';
-            $finance->save();
-
-            
-
-            $finance = Finance::where('from_user',$account->account_code)
-                                ->where('to_user',$account->account_code)
-                                ->where('type','pending')
-                                ->where('description','upgrade level 1')
-                                ->first();
-            $finance->type = 'profit';
-            $finance->save();
+            $finance_upgrade->type = 'profit';
+            $finance_upgrade->save();
         }
     }
 
