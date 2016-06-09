@@ -1,0 +1,20 @@
+title = "Login"
+url = "/account/login"
+layout = "account_layout"
+is_hidden = 0
+
+[login]
+
+[session]
+security = "all"
+==
+<?php
+function onEnd()
+{
+    if($this->user) {
+        return Redirect::to('account/dashboard');
+    }
+}
+?>
+==
+{% component 'login' %}

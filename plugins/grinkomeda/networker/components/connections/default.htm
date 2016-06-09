@@ -1,0 +1,41 @@
+<h3><i class="fa fa-angle-right"></i> Connections</h3>
+<div class="col-md-12 mb">
+	<div class="col-md-4"></div>
+	<div class="col-md-4">
+		<div class="darkblue-panel pn col">
+		    <div class="darkblue-header">
+		        <h5>{{ profile.first_name }} {{ profile.last_name }}</h5>
+		        <h5>BOBMK16</h5>
+		    </div>
+		    <h1 class="mt"><i class="fa fa-user fa-3x"></i></h1>
+		    <p>+ 5 Connections</p>
+		    <footer>
+				<div class="centered">
+		            <h5><i class="fa fa-trophy"></i> {{ earnings }}</h5>
+				</div>
+		    </footer>
+		</div>
+	</div>
+	<div class="col-md-4"></div>
+</div>
+<div class="col-md-1 mb"></div>
+
+{% if connections %}
+	{% for connection in connections %}
+		<div class="col-md-2 mb">
+		    <div class="darkblue-panel pn col">
+	            <div class="darkblue-header">
+	                <h5>{{ connection.profile.first_name }} {{ connection.profile.last_name }}</h5>
+	                <h5>{{ connection.account_code }}</h5>
+	            </div>
+	            <h1 class="mt"><i class="fa fa-user fa-3x"></i></h1>
+	            <p>+ 1,789 Connections</p>
+	            <footer>
+	              <div class="centered">
+	                <h5><i class="fa fa-trophy"></i> {{ connection.earnings }}</h5>
+	              </div>
+	            </footer>
+			</div>
+		</div>
+	{% endfor %}
+{% endif %}

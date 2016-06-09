@@ -1,0 +1,31 @@
+		<form class="form-registration"
+			data-request="{{ __SELF__ }}::onCreate"
+			data-request-update="'{{ __SELF__ }}::tickets': '#tickets'"
+				>
+	    <h2 class="form-registration-heading">ticket factory</h2>
+	    <div class="registration-wrap">
+	        <input type="text" class="form-control" placeholder="Number of Tickets" name="ticket_number" autofocus>
+	        <br>
+	        <select class="form-control" name="package_amount"
+	        data-request="{{ __SELF__ }}::onUpdatePackages"
+	        data-request-update="'{{ __SELF__ }}::specify': '#specify'">
+				{% partial __SELF__~'::packages' %}
+			</select>
+			<div id="specify"></div>
+	        <label class="checkbox">
+	            
+	        </label>
+	        <button class="btn btn-theme btn-block" href="index.html" type="submit"><i class="fa fa-user"></i> CREATE TICKET</button>
+	        <div class="row">
+		        <div id="ticket_list" class="col-lg-12 ds">
+		        <h4>Tickets Available</h4>
+		        	<div id="tickets">
+		        	{% partial __SELF__~'::tickets' %}
+		        	</div>
+		        	<div style="clear:both;"></div>
+		        </div>
+	        </div>
+
+	    </div>
+
+	  </form>

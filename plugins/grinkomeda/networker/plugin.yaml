@@ -1,0 +1,6 @@
+plugin:
+    name: 'grinkomeda.networker::lang.plugin.name'
+    description: 'grinkomeda.networker::lang.plugin.description'
+    author: Grinkomeda
+    icon: oc-icon-briefcase
+    homepage: ''

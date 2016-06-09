@@ -1,0 +1,9 @@
+RewriteEngine on
+RewriteCond $1 !^(index\.php|images|robots\.txt|css|stylesheets|uploads|js)
+RewriteRule ^(.*)$ index.php?/$1 [L]
+RewriteBase /bobmarketing
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /bobmarketing/install.php [L]
+RewriteRule . /bobmarketing/install_files/install.php [L]

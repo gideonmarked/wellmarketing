@@ -1,0 +1,36 @@
+title = "Upgrade Account"
+url = "/account/upgrade-account"
+layout = "dashboard"
+is_hidden = 0
+
+[session]
+security = "user"
+redirect = "notfound"
+
+[levelUp]
+==
+<?php
+use Grinkomeda\Networker\Models\Account;
+function onEnd()
+{
+	$account = Account::where('user_id', $this->user->id)->first();
+	$packages = [];
+	$less_amount = 0.0;
+	foreach( $this->packages as $package  )
+	{
+		if( $package['level_id'] > $account['level_id'] )
+		{
+		    $package['amount'] -= $less_amount;
+		    $packages[] = $package;
+		}
+		else
+		{
+		    $less_amount += floatval($package['peso_value']);
+		}
+	}
+	$this['packages'] = $packages;
+	$this['account'] = $account;
+}
+?>
+==
+{% component 'levelUp' %}

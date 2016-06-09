@@ -1,0 +1,125 @@
+==
+<div class="content-panel">
+  	  <h4><i class="fa fa-angle-right"></i> Financial Information
+      <button type="button" class="btn btn-theme pull-right" style="margin-right: 10px;" data-request="onRequestCheck"><i class="fa fa-money"></i> Request Check</button></h4>
+  	  <hr>
+  <table class="table">
+      <thead>
+      <tr>
+          <th>From</th>
+          <th>Amount</th>
+          <th>Level</th>
+          <th>Transaction Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for transaction in transactions %}
+      <tr>
+          {% set from_profile = account.getProfileFromAccountCode( transaction.from_user ) %}
+          <td>{{ from_profile.first_name }} {{ from_profile.last_name }} : {{ transaction.from_user }}</td>
+          <td style="text-align: left;">
+          {% if transaction.type == 'expense' %}
+          -
+          {% endif %}
+          {{ transaction.amount }}
+          </td>
+          <td>{{ transaction.description }}</td>
+          <td>{{ transaction.transaction_date }}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+  </table>
+</div>
+
+<br>
+<div class="content-panel">
+      <h4><i class="fa fa-angle-right"></i> My Claims</h4>
+      <hr>
+  <table class="table">
+      <thead>
+      <tr>
+          <th>From</th>
+          <th>Amount</th>
+          <th>Level</th>
+          <th>Transaction Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for claim in claims %}
+      <tr>
+          <td>{{ claim.from_user }}</td>
+          <td style="text-align: left;">
+          {% if claim.type == 'expense' %}
+          -
+          {% endif %}
+          {{ claim.amount }}
+          </td>
+          <td>{{ claim.description }}</td>
+          <td>{{ claim.transaction_date }}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+  </table>
+</div>
+{% if account.account_code == 'BOBMK16' %}
+<br>
+<div class="content-panel">
+      <h4><i class="fa fa-angle-right"></i> Member Claims</h4>
+      <hr>
+  <table class="table">
+      <thead>
+      <tr>
+          <th>From</th>
+          <th>Amount</th>
+          <th>Level</th>
+          <th>Transaction Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for member_claim in member_claims %}
+      <tr>
+          <td>{{ member_claim.from_user }}</td>
+          <td style="text-align: left;">
+          {% if member_claim.type == 'expense' %}
+          -
+          {% endif %}
+          {{ member_claim.amount }}
+          </td>
+          <td>{{ member_claim.description }}</td>
+          <td>{{ member_claim.transaction_date }}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+  </table>
+</div>
+{% endif %}
+<br>
+<div class="content-panel">
+      <h4><i class="fa fa-angle-right"></i> Pending Transactions</h4>
+      <hr>
+  <table class="table">
+      <thead>
+      <tr>
+          <th>From</th>
+          <th>Amount</th>
+          <th>Level</th>
+          <th>Transaction Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for pending in pendings %}
+      <tr>
+          <td>{{ pending.from_user }}</td>
+          <td style="text-align: left;">
+          {% if pending.type == 'expense' %}
+          -
+          {% endif %}
+          {{ pending.amount }}
+          </td>
+          <td>{{ pending.description }}</td>
+          <td>{{ pending.pending_date }}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+  </table>
+</div>

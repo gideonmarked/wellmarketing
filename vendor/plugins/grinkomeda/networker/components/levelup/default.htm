@@ -1,0 +1,33 @@
+<form class="form-registration"
+	data-request="{{ __SELF__ }}::onUpgrade"
+	data-update="'{{ __SELF__ }}::message': '#result'"
+	style="margin-top: 50px;"
+		>
+	<div id="result">
+        <h2 class="form-registration-heading">Upgrade Account</h2>
+        <div class="registration-wrap">            
+        {% if packages is empty %}
+            <h5>You've already reached the highest upgrade. Cheers!</h5>
+        {% else %}
+            <input type="hidden" name="user_id" value="{{ account.user_id }}" />
+            <select class="form-control" name="package">
+                  {% partial __SELF__~'::packages' %}
+            </select>
+            <br>
+            <input type="text" class="form-control" name="ticket_code" placeholder="Ticket Code">
+            {% if errors.first('ticket_code') != '' %}
+            <div class="alert alert-danger" style="margin-top: 10px;">
+                  {{ errors.first('ticket_code') }}
+            </div>
+            {% endif %}
+            <label class="checkbox">
+                
+            </label>
+            <button class="btn btn-theme btn-block" href="index.html" type="submit"><i class="fa fa-user"></i> UPGRADE ACCOUNT</button>
+        {% endif %}
+        </div>
+	     <label class="checkbox">
+                
+        </label>
+	</div>
+</form>

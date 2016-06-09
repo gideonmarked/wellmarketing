@@ -1,0 +1,25 @@
+title = "Ticket Factory"
+url = "/admin/ticket-factory"
+layout = "account_layout"
+is_hidden = 0
+
+[ticketFactory]
+
+[session]
+security = "user"
+redirect = "notfound"
+==
+<?php
+use Grinkomeda\Networker\Models\Account;
+use Grinkomeda\Networker\Models\Profile;
+function onEnd()
+{
+    $account = Account::where('user_id',$this->user->id)->first();
+    $this['account'] = $account;
+    $this['profile'] = Profile::where('user_id',$this->user->id)->first();
+    if( $account['account_code'] != 'BOBMK16' )
+    	return Redirect::to('account/notfound');
+}
+?>
+==
+{% component 'ticketFactory' %}

@@ -1,0 +1,53 @@
+title = "dashboard"
+url = "/account/dashboard"
+layout = "dashboard"
+is_hidden = 0
+
+[session]
+security = "user"
+redirect = "notfound"
+==
+<?php
+use Grinkomeda\Networker\Models\Account;
+use Grinkomeda\Networker\Models\Finance;
+use Grinkomeda\Networker\Models\Profile;
+function onEnd()
+{
+    $account = Account::where('user_id',$this->user->id)->first();
+    $this['profile'] = Profile::where('user_id',$this->user->id)->first();
+
+    $transactions = Finance::where('to_user',$account['account_code'])->where('description','!=','package payment')->where('type','profit')->get();
+
+    $claims = Finance::where('from_user',$account['account_code'])->where('type','claim')->get();
+
+    if( $account['account_code'] == 'BOBMK16' ) {
+        $member_claims = Finance::where('type','claim')->get();
+
+        $this['member_claims'] = $member_claims;
+    }
+
+    $pendings = Finance::where('to_user',$account['account_code'])->where('description','!=','package payment')->where('type','pending')->get();
+
+    $this['profile'] = Profile::where('user_id',$this->user->id)->first();
+
+    $this['transactions'] = $transactions;
+    $this['claims'] = $claims;
+    $this['pendings'] = $pendings;
+    $this['account'] = $account;
+    $this['user_id'] = $this->user->id;
+}
+
+function onRequestCheck()
+{
+    Finance::requestCheck();
+}
+?>
+==
+{% partial 'dashboard/user-messages' %}
+<div class="row wrapper">
+    <div class="col-md-12 mb">
+        {% partial 'dashboard/finance' %}
+    </div><!--column12-->
+</div>
+{% partial 'dashboard/connections' %}
+{% partial 'dashboard/finance-graph' %}

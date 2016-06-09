@@ -1,0 +1,14 @@
+{% for ticket in tickets %}
+     <div class="desc">
+     	<div class="row">
+     		<div class="pull-left col-lg-1"></div>
+     		<div class="pull-left col-lg-5">
+     			<p class="form-control-static">{{ ticket.code }}</p>
+     		</div>
+     		<div class="pull-left col-lg-1"></div>
+     		<div class="pull-left col-lg-5 text-right">
+     			<p class="form-control-static">{{ ticket.amount|number_format(2, '.', ',') }}</p>
+     		</div>
+ 		</div>
+     </div>
+{% endfor %}

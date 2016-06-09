@@ -1,0 +1,64 @@
+1.0.1:
+    - 'Initialize plugin.'
+1.0.2:
+    - 'Created table grinkomeda_networker_profile'
+    - builder_table_create_grinkomeda_networker_profile.php
+1.0.3:
+    - 'Updated table grinkomeda_networker_profile'
+    - builder_table_update_grinkomeda_networker_profile.php
+1.0.4:
+    - 'Updated table grinkomeda_networker_profile'
+    - builder_table_update_grinkomeda_networker_profiles.php
+1.0.5:
+    - 'Created table grinkomeda_networker_accounts'
+    - builder_table_create_grinkomeda_networker_accounts.php
+1.0.6:
+    - 'Created table grinkomeda_networker_finance'
+    - builder_table_create_grinkomeda_networker_finance.php
+1.0.7:
+    - 'Updated table grinkomeda_networker_finance'
+    - builder_table_update_grinkomeda_networker_finance.php
+1.0.8:
+    - 'Created table grinkomeda_networker_levels'
+    - builder_table_create_grinkomeda_networker_levels.php
+1.0.9:
+    - 'Created table grinkomeda_networker_packages'
+    - builder_table_create_grinkomeda_networker_packages.php
+1.0.10:
+    - 'Created table grinkomeda_networker_products'
+    - builder_table_create_grinkomeda_networker_products.php
+1.0.11:
+    - 'Created table grinkomeda_networker_tickets'
+    - builder_table_create_grinkomeda_networker_tickets.php
+1.0.12:
+    - 'Created table grinkomeda_networker_entries'
+    - builder_table_create_grinkomeda_networker_entries.php
+1.0.13:
+    - 'Updated table grinkomeda_networker_finance'
+    - builder_table_update_grinkomeda_networker_finance_2.php
+1.0.14:
+    - 'Created table grinkomeda_networker_orders'
+    - builder_table_create_grinkomeda_networker_orders.php
+1.0.15:
+    - 'Created table grinkomeda_networker_activity_logs'
+    - builder_table_create_grinkomeda_networker_activity_logs.php
+1.0.16:
+    - 'Created table grinkomeda_networker_user_logs'
+    - builder_table_create_grinkomeda_networker_user_logs.php
+1.0.17:
+    - 'Seed packages and levels'
+    - seed_packages_table.php
+    - seed_levels_table.php
+    - seed_default_user_account_table.php
+1.0.18:
+    - 'Updated table grinkomeda_networker_levels'
+    - builder_table_update_grinkomeda_networker_levels.php
+1.0.19:
+    - 'Updated table grinkomeda_networker_finance'
+    - builder_table_update_grinkomeda_networker_finance_3.php
+1.0.20:
+    - 'Updated table grinkomeda_networker_packages'
+    - builder_table_update_grinkomeda_networker_packages.php
+1.0.21:
+    - 'Updated table grinkomeda_networker_accounts'
+    - builder_table_update_grinkomeda_networker_accounts.php
