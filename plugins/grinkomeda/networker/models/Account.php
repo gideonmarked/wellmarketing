@@ -51,6 +51,31 @@ class Account extends Model
         }
     }
 
+    public static function getAncestralChildren( $account_code, $level, $current_level = 1 )
+    {
+        $children = Account::getChildren( $account_code );
+        if( $current_level < $level ) {
+            $active_children = array();
+            foreach ($children as $key => $child) {
+                $ancestral_children = Account::getAncestralChildren( 
+                                            $child['account_code'],
+                                            $level,
+                                            $current_level + 1
+                                        );
+                foreach ($ancestral_children as $key => $ancestral_child) {
+                    array_push( $active_children, $ancestral_child );
+                }
+            }
+            $children = $active_children;
+        }
+        return $children;
+    }
+
+    public static function getChildren( $account_code )
+    {
+        return Account::where( 'leader_code',$account_code )->where( 'account_code', '!=' ,'BOBMKRT' )->get();
+    }
+
     public static function getAncestor( $account_code, $levels, $current_level = 1 )
     {
         $parent = Account::where('account_code',$account_code)->first();

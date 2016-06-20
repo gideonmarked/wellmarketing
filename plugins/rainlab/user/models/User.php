@@ -80,7 +80,7 @@ class User extends UserBase
             (!$this->username) ||
             ($this->isDirty('email') && $this->getOriginal('email') == $this->username)
         ) {
-            // $this->username = $this->email;
+            $this->username = $this->email;
         }
     }
 

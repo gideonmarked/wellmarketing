@@ -162,7 +162,7 @@ class Finance extends Model
         $finance->save();
     }
 
-    public static function createPendingUpgrade( $account_code, $leader_code, $amount, $level_id )
+    public static function createPendingUpgradeOLD( $account_code, $leader_code, $amount, $level_id )
     {
         $finance = new Finance;
         $finance->from_user = $account_code;

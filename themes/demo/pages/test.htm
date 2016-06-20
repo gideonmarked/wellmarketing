@@ -1,0 +1,13 @@
+title = "Test"
+url = "/test"
+is_hidden = 0
+==
+<?php
+use Grinkomeda\Networker\Models\Account;
+
+function onEnd()
+{
+    dump( Account::getAncestralChildren('BOBMKRT',4) );
+}
+?>
+==

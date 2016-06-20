@@ -55,11 +55,11 @@ return [
 
         'mysql' => [
             'driver'    => 'mysql',
-            'host'      => 'mysql.thenoveltymarketing.com',
+            'host'      => 'localhost',
             'port'      => 3306,
             'database'  => 'bobmarketing',
-            'username'  => 'grinkomeda',
-            'password'  => 'cLRn3n!V',
+            'username'  => 'root',
+            'password'  => '',
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',

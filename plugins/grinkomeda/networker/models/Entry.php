@@ -40,7 +40,7 @@ class Entry extends Model
     {
         if($this->package_id)
         {
-            $this->rules['ticket_code'] = 'required|max:7|min:7|alpha_num|ticket_amount_match:' . $this->package_id;
+            // $this->rules['ticket_code'] = 'required|max:7|min:7|alpha_num|ticket_amount_match:' . $this->package_id;
         }
 
         if($this->upgrade_package_id && $this->upgrade_user_id)
