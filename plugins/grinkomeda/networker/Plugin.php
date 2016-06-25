@@ -45,7 +45,7 @@ class Plugin extends PluginBase
 
         Validator::extend('ticket_amount_match', function($attribute, $value, $parameters, $validator) {
             $ticket = Ticket::where('code',$value)->first();
-            $package = Package::where('level_id',$parameters[0])->first();
+            $package = Package::where('id',$parameters[0])->first();
             return $package['amount'] == $ticket['amount'];
         });
 
@@ -53,7 +53,7 @@ class Plugin extends PluginBase
             $ticket = Ticket::where('code',$value)->first();
             $packages = Package::where('type','rush')->get();
             $account_level = Account::where('user_id', $parameters[1])->first()['level_id'];
-            
+
             $calculated_amount = 0.0;
             foreach ($packages as $key => $package) {
                 if( $package['level_id'] > $account_level && $package['level_id'] <= $parameters[0] )

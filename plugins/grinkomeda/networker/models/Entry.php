@@ -7,7 +7,7 @@ use Model;
  */
 class Entry extends Model
 {
-    use \October\Rain\Database\Traits\Validation;
+  use \October\Rain\Database\Traits\Validation;
 
     /*
      * Validation
@@ -18,6 +18,7 @@ class Entry extends Model
     public $rules = [];
     public $customMessages = [
         'ticket_amount_match'   => 'The :attribute amount does not match the package amount.',
+        'exists'   => 'The :attribute is invalid.',
         'ticket_amount_match_upgrade'   => 'The :attribute amount does not match the package amount.',
     ];
 
@@ -38,10 +39,7 @@ class Entry extends Model
 
     public function beforeValidate()
     {
-        if($this->package_id)
-        {
-            // $this->rules['ticket_code'] = 'required|max:7|min:7|alpha_num|ticket_amount_match:' . $this->package_id;
-        }
+        $this->rules['ticket_code'] = 'required|max:7|min:7|alpha_num|exists:grinkomeda_networker_tickets,code|ticket_amount_match:6';
 
         if($this->upgrade_package_id && $this->upgrade_user_id)
         {

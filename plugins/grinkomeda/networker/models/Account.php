@@ -57,7 +57,7 @@ class Account extends Model
         if( $current_level < $level ) {
             $active_children = array();
             foreach ($children as $key => $child) {
-                $ancestral_children = Account::getAncestralChildren( 
+                $ancestral_children = Account::getAncestralChildren(
                                             $child['account_code'],
                                             $level,
                                             $current_level + 1
