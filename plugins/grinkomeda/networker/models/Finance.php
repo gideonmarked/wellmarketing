@@ -18,7 +18,7 @@ class Finance extends Model
     public $rules = [
     ];
 
-    public static function createPendingUpgrade($account_code,$amount,$level)
+    public static function createPendingUpgrade($account_code,$leader_code,$package,$amount,$level)
     {
         $finance = new Finance;
         $finance->from_user = $account_code;
@@ -41,14 +41,14 @@ class Finance extends Model
         $finance = new Finance;
         $finance->from_user = 'BOBMK16';
         $finance->to_user = 'GNKMDSD';
-        $finance->amount = $package['amount'] * 0.03;
+        $finance->amount = $amount * 0.03;
         $finance->type = 'expense';
         $finance->description = 'system development ref: '. $account_code;
         $finance->transaction_date = date('Y-m-d H:i:s');
         $finance->save();
     }
 
-    public static function convertPendingToUpgrade($accounts,$level,$amount) 
+    public static function convertPendingToUpgrade($accounts,$level,$amount)
     {
         foreach ($accounts as $key => $account) {
             $finance_upgrade = Finance::where('from_user',$account->account_code)
@@ -56,20 +56,23 @@ class Finance extends Model
                                 ->where('type','pending')
                                 ->where('description','upgrade level ' . $level)
                                 ->first();
-            $finance_upgrade->type = 'profit';
-            $finance_upgrade->save();
+            if($finance_upgrade)
+            {
+              $finance_upgrade->type = 'profit';
+              $finance_upgrade->save();
+            }
         }
     }
 
     public static function createForceMatrix($account_code, $level, $leader_code)
     {
-        for ($i=1; $i <= $level; $i++) { 
+        for ($i=1; $i <= $level; $i++) {
             $parent = Account::getAncestor($account_code,$i);
             $package = Package::where('level_id',$i)->where('type','regular')->first();
             if( $parent['level_id'] >= $i ) {
                 $finance = new Finance;
                 $finance->from_user = $account_code;
-                $finance->to_user = (   !is_null($leader_code) 
+                $finance->to_user = (   !is_null($leader_code)
                                         && $i == 1 ? $leader_code
                                         : $parent['account_code']  );
                 $finance->amount = $package['peso_value'] * 0.5;
@@ -80,7 +83,7 @@ class Finance extends Model
             } else {
                 $finance = new Finance;
                 $finance->from_user = $account_code;
-                $finance->to_user = (   !is_null($leader_code) 
+                $finance->to_user = (   !is_null($leader_code)
                                         && $i == 1 ? $leader_code
                                         : $parent['account_code']  );
                 $finance->amount = $package['peso_value'] * 0.5;
@@ -90,7 +93,7 @@ class Finance extends Model
                 $finance->save();
             }
         }
-        
+
         $finance = new Finance;
         $finance->from_user = $account_code;
         $finance->to_user = 'BOBMK16';
@@ -104,7 +107,7 @@ class Finance extends Model
         $finance->from_user = $account_code;
         $finance->to_user = 'GNKMDSD';
         $finance->amount = $package['amount'] * 0.03;
-        $finance->type = 'expense';
+        $finance->type = 'pending';
         $finance->description = 'system development';
         $finance->transaction_date = date('Y-m-d H:i:s');
         $finance->save();
@@ -114,11 +117,11 @@ class Finance extends Model
     {
         $account = Account::where('account_code',$account_code)->first();
         $amount_to_be_paid = 0.0;
-        for ($i = $from_level+1; $i <= $level; $i++) { 
+        for ($i = $from_level+1; $i <= $level; $i++) {
             $parent = Account::getAncestor($account_code,$i);
             $package = Package::where('level_id',$i)->where('type','regular')->first();
             if( $parent['level_id'] >= $i ) {
-                
+
                 $finance = new Finance;
                 $finance->from_user = $account_code;
                 $finance->to_user = $parent['account_code'];
@@ -142,7 +145,7 @@ class Finance extends Model
                 $amount_to_be_paid += $package['peso_value'];
             }
         }
-        
+
         $finance = new Finance;
         $finance->from_user = $account_code;
         $finance->to_user = 'BOBMK16';
@@ -209,10 +212,10 @@ class Finance extends Model
         if(!Auth::check())
         {
             return null;
-        }    
+        }
 
         $user = Auth::getUser();
-        
+
         $account = Account::where('user_id',$user->id)->first();
 
         $finance = new Finance;

@@ -8,6 +8,7 @@ use Flash;
 use Event;
 use Cms\Classes\ComponentBase;
 use October\Rain\Exception\ApplicationException;
+use October\Rain\Exception\ValidationException;
 use Grinkomeda\Networker\Models\Package;
 use Grinkomeda\Networker\Models\Ticket;
 use Grinkomeda\Networker\Models\Account;
@@ -100,11 +101,11 @@ class Registration extends ComponentBase
       if( !is_null($models_created['ticket']) && $models_created['ticket']->exists ) {
           $models_created['ticket']->purchase_date = date('Y-m-d H:i:s');
           $models_created['ticket']->link_date = date('Y-m-d H:i:s');
-          var_dump('Invalid ticket used');
       } else {
           $errors++;
+          throw new ValidationException(['The ticket is invalid. Please contact customer relations.','tcket']);
       }
-      var_dump($errors);
+
       if( $errors == 0 ) {
         $user = new User;
         $user->username = $data['username'];
@@ -137,7 +138,7 @@ class Registration extends ComponentBase
     {
         $active_counter = 1;
 
-        $package_amount = Package::find($package_id)->first()['amount'];
+        $package_amount = Package::find(6)->first()['amount'];
         $active_account = Account::where( 'account_code',$account_code )->first();
         $leader_code = $active_account['leader_code'];
         $children_accounts = Account::getAncestralChildren( $leader_code, $level );
@@ -149,7 +150,7 @@ class Registration extends ComponentBase
              2529
             );
 
-        Finance::createPendingUpgrade( $account_code, $amount, $level);
+        Finance::createPendingUpgrade( $account_code, $leader_code, $package_amount, $amount, $level);
 
         if(count($children_accounts) == 3) {
             Finance::convertPendingToUpgrade($children_accounts,$level,$amount);

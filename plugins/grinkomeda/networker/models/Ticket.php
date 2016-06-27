@@ -7,7 +7,6 @@ use Model;
  */
 class Ticket extends Model
 {
-    use \October\Rain\Database\Traits\Validation;
 
     /*
      * Validation
